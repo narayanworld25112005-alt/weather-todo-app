@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Weather-to-Do</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Background scenery: mountains and trees -->
+  <div class="scene" aria-hidden="true">
+    <svg viewBox="0 0 1440 400" preserveAspectRatio="none">
+      <path class="m1" d="M0 230 L160 150 L300 220 L470 120 L640 230 L820 140 L1000 235 L1180 150 L1300 210 L1440 160 L1440 400 L0 400Z"/>
+      <path class="m2" d="M0 300 L140 240 L320 300 L520 220 L720 305 L930 230 L1120 300 L1290 240 L1440 290 L1440 400 L0 400Z"/>
+      <path class="tree" d="M0 400 L0 300 L30 220 L60 300 L40 300 L75 360 L100 400Z M1340 400 L1360 330 L1390 240 L1420 330 L1405 330 L1440 380 L1440 400Z M1200 400 L1230 320 L1255 260 L1280 320 L1262 320 L1295 400Z M130 400 L160 330 L185 270 L210 330 L192 330 L225 400Z"/>
+    </svg>
+  </div>
+
+  <div class="app">
+    <header class="top">
+      <div class="brand">
+        <span class="logo" aria-hidden="true">⛅</span>
+        <div>
+          <h1>Weather-to-Do</h1>
+          <p>Check the weather. Plan your day.</p>
+        </div>
+      </div>
+      <div class="controls">
+        <form id="weather-form" class="city-pill">
+          <span aria-hidden="true">📍</span>
+          <label for="city" class="sr">Search a city</label>
+          <input id="city" type="text" placeholder="Search city" autocomplete="off" value="Bhubaneswar">
+        </form>
+        <button id="theme" type="button" class="toggle" role="switch" aria-checked="false" aria-label="Dark theme">
+          <span class="knob">☀️</span><span class="moon" aria-hidden="true">🌙</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="grid">
+      <div class="left">
+        <section class="glass weather" aria-labelledby="w-title">
+          <div class="row">
+            <h2 id="w-title">Today’s Weather</h2>
+            <span id="date" class="muted"></span>
+          </div>
+          <p id="weather-msg" role="status" class="muted">Search a city to see the weather.</p>
+          <div id="weather-result" hidden>
+            <div class="now">
+              <span id="icon" class="big-icon" aria-hidden="true"></span>
+              <div>
+                <p class="temp"><span id="temp"></span><small>°C</small></p>
+                <p id="condition" class="cond"></p>
+                <p id="place" class="muted"></p>
+              </div>
+            </div>
+            <ul class="stats">
+              <li><span>💧</span><div><small>Humidity</small><b id="humidity"></b></div></li>
+              <li><span>🌬️</span><div><small>Wind speed</small><b id="wind"></b></div></li>
+              <li><span>🌅</span><div><small>Sunset</small><b id="sunset"></b></div></li>
+            </ul>
+            <ul id="forecast" class="forecast"></ul>
+          </div>
+        </section>
+        <aside class="glass tip" aria-live="polite">
+          <span aria-hidden="true">💡</span>
+          <div><b>Pro Tip:</b> <span id="tip">Search a city to get a tip for your day.</span></div>
+        </aside>
+      </div>
+
+      <section class="glass todo" aria-labelledby="t-title">
+        <div class="row">
+          <h2 id="t-title"><span aria-hidden="true">📝</span> My To-Do List</h2>
+          <button id="add-focus" type="button" class="primary">+ Add Task</button>
+        </div>
+        <form id="todo-form" class="add">
+          <label for="task" class="sr">New task</label>
+          <input id="task" type="text" placeholder="What do you want to do?" autocomplete="off">
+          <label for="due" class="sr">When</label>
+          <select id="due">
+            <option value="today">Today</option>
+            <option value="tomorrow">Tomorrow</option>
+            <option value="later">Later</option>
+          </select>
+          <button type="submit" class="go" aria-label="Add task">➜</button>
+        </form>
+        <p id="todo-msg" role="status" class="error"></p>
+        <div class="filters" role="group" aria-label="Filter tasks">
+          <button type="button" data-filter="all" class="chip active">All</button>
+          <button type="button" data-filter="today" class="chip">Today</button>
+          <button type="button" data-filter="pending" class="chip">Pending</button>
+          <button type="button" data-filter="completed" class="chip">Completed</button>
+        </div>
+        <ul id="todo-list"></ul>
+        <div class="foot">
+          <span id="count"></span>
+          <button id="clear" type="button" class="link">Clear completed</button>
+        </div>
+        <div class="mascot" aria-hidden="true">
+          <svg viewBox="0 0 90 60" width="90" height="60">
+            <path d="M22 50 Q6 50 8 36 Q10 24 24 26 Q26 10 44 12 Q60 8 66 24 Q84 22 84 38 Q84 50 68 50Z" fill="#fff" stroke="#3b3a8f" stroke-width="2.5"/>
+            <circle cx="36" cy="34" r="2.6" fill="#3b3a8f"/><circle cx="54" cy="34" r="2.6" fill="#3b3a8f"/>
+            <path d="M40 40 Q45 45 50 40" fill="none" stroke="#3b3a8f" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="30" cy="40" r="3" fill="#ffb3c1" opacity=".8"/><circle cx="60" cy="40" r="3" fill="#ffb3c1" opacity=".8"/>
+          </svg>
+          <p>Plan smart,<br>live better!</p>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
